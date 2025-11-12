@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Didi</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap');
+        
+        /* --- Hero Load-in Animation --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero-h1 { animation: fadeInUp 1s ease-out 0.8s backwards; }
+        .hero-p { animation: fadeInUp 1s ease-out 1.1s backwards; }
+        .hero-arrow { animation: fadeInUp 1s ease-out 1.4s backwards; }
+
+        /* --- Gentle Pulse for Special Text --- */
+        @keyframes softPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.9; }
+        }
+        .soft-pulse {
+            display: inline-block;
+            animation: softPulse 3s ease-in-out infinite;
+        }
+
+        /* --- Photos "Fall From Above" Animation --- */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(-80px) scale(0.9) rotate(3deg);
+            transition: opacity 1s ease-out, transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .is-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1) rotate(0deg);
+        }
+
+        /* Custom font classes */
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .font-sans { font-family: 'Inter', sans-serif; }
+
+        /* --- Petal Animation Styles (Background) --- */
+        .falling-petals {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 10;
+        }
+        .petal {
+            position: absolute;
+            top: -10%;
+            font-size: 30px;
+            opacity: 0.7;
+            animation: fall 20s linear infinite, rotate 8s ease-in-out infinite alternate;
+        }
+        @keyframes fall {
+            to {
+                top: 110%;
+                transform: translateX(var(--sway, 0px));
+            }
+        }
+        @keyframes rotate {
+            from { transform: rotate(-30deg) scale(0.9); }
+            to { transform: rotate(30deg) scale(1.1); }
+        }
+        .petal:nth-child(1) { left: 5%; animation-duration: 22s; animation-delay: 0s; --sway: 20px; }
+        .petal:nth-child(2) { left: 15%; animation-duration: 18s; animation-delay: -3s; --sway: -30px; font-size: 20px; opacity: 0.5; }
+        .petal:nth-child(3) { left: 25%; animation-duration: 25s; animation-delay: -7s; --sway: 40px; }
+        .petal:nth-child(4) { left: 35%; animation-duration: 20s; animation-delay: -2s; --sway: -25px; font-size: 35px; opacity: 0.8; }
+        .petal:nth-child(5) { left: 45%; animation-duration: 24s; animation-delay: -5s; --sway: 35px; }
+        .petal:nth-child(6) { left: 55%; animation-duration: 17s; animation-delay: -1s; --sway: -20px; }
+        .petal:nth-child(7) { left: 75%; animation-duration: 26s; animation-delay: -6s; --sway: 50px; font-size: 20px; opacity: 0.5; }
+        .petal:nth-child(8) { left: 85%; animation-duration: 22s; animation-delay: -4s; --sway: -30px; }
+        .petal:nth-child(9) { left: 90%; animation-duration: 23s; animation-delay: -8s; --sway: 20px; font-size: 35px; opacity: 0.8; }
+        .petal:nth-child(10) { left: 95%; animation-duration: 19s; animation-delay: -10s; --sway: -40px; }
+        .petal:nth-child(11) { left: 12%; animation-duration: 21s; animation-delay: -4s; --sway: 25px; content: '❤️'; }
+        .petal:nth-child(12) { left: 68%; animation-duration: 23s; animation-delay: -9s; --sway: -35px; content: '💕'; }
+
+        /* --- ENHANCED: Confetti Burst on Load --- */
+        .confetti-burst {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            animation: fade-out 1s 3s forwards;
+        }
+        .particle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            font-size: 32px;
+            opacity: 0;
+            animation: burst 3s ease-out forwards;
+        }
+        @keyframes burst {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--x), var(--y)) scale(0) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        @keyframes fade-out {
+            to { opacity: 0; visibility: hidden; }
+        }
+        
+        /* More dramatic spread for burst particles */
+        .particle:nth-child(1) { --x: -300px; --y: -500px; animation-delay: 0s; }
+        .particle:nth-child(2) { --x: 300px; --y: -500px; animation-delay: 0.05s; }
+        .particle:nth-child(3) { --x: -500px; --y: -300px; animation-delay: 0.1s; }
+        .particle:nth-child(4) { --x: 500px; --y: -300px; animation-delay: 0.15s; }
+        .particle:nth-child(5) { --x: -300px; --y: 500px; animation-delay: 0.2s; }
+        .particle:nth-child(6) { --x: 300px; --y: 500px; animation-delay: 0.25s; }
+        .particle:nth-child(7) { --x: -500px; --y: 300px; animation-delay: 0.3s; }
+        .particle:nth-child(8) { --x: 500px; --y: 300px; animation-delay: 0.35s; }
+        .particle:nth-child(9) { --x: -400px; --y: -400px; animation-delay: 0.1s; font-size: 28px; }
+        .particle:nth-child(10) { --x: 400px; --y: -400px; animation-delay: 0.15s; font-size: 28px; }
+        .particle:nth-child(11) { --x: -400px; --y: 400px; animation-delay: 0.2s; font-size: 28px; }
+        .particle:nth-child(12) { --x: 400px; --y: 400px; animation-delay: 0.25s; font-size: 28px; }
+        .particle:nth-child(13) { --x: 600px; --y: 0px; animation-delay: 0.1s; }
+        .particle:nth-child(14) { --x: -600px; --y: 0px; animation-delay: 0.15s; }
+        .particle:nth-child(15) { --x: 0px; --y: 600px; animation-delay: 0.2s; }
+        .particle:nth-child(16) { --x: 0px; --y: -600px; animation-delay: 0.25s; }
+        .particle:nth-child(17) { --x: -250px; --y: -450px; animation-delay: 0.3s; font-size: 26px; }
+        .particle:nth-child(18) { --x: 250px; --y: -450px; animation-delay: 0.35s; font-size: 26px; }
+        .particle:nth-child(19) { --x: -450px; --y: -250px; animation-delay: 0.4s; font-size: 26px; }
+        .particle:nth-child(20) { --x: 450px; --y: -250px; animation-delay: 0.45s; font-size: 26px; }
+
+        /* --- NEW: Rising Balloons from Bottom --- */
+        .balloon-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 45;
+            animation: fade-out 1s 3.5s forwards;
+        }
+        .balloon {
+            position: absolute;
+            bottom: -100px;
+            font-size: 48px;
+            animation: rise 4s ease-out forwards;
+        }
+        @keyframes rise {
+            0% {
+                bottom: -100px;
+                opacity: 0;
+                transform: translateX(0) rotate(0deg);
+            }
+            10% {
+                opacity: 1;
+            }
+            100% {
+                bottom: 120%;
+                opacity: 0;
+                transform: translateX(var(--drift, 0px)) rotate(var(--rotate, 0deg));
+            }
+        }
+        .balloon:nth-child(1) { left: 10%; --drift: 30px; --rotate: 15deg; animation-delay: 0.2s; }
+        .balloon:nth-child(2) { left: 25%; --drift: -40px; --rotate: -20deg; animation-delay: 0.4s; }
+        .balloon:nth-child(3) { left: 40%; --drift: 50px; --rotate: 25deg; animation-delay: 0.6s; }
+        .balloon:nth-child(4) { left: 55%; --drift: -30px; --rotate: -15deg; animation-delay: 0.8s; }
+        .balloon:nth-child(5) { left: 70%; --drift: 40px; --rotate: 20deg; animation-delay: 1s; }
+        .balloon:nth-child(6) { left: 85%; --drift: -50px; --rotate: -25deg; animation-delay: 1.2s; }
+
+        /* --- NEW: Floating Side Balloons (Continuous) --- */
+        .floating-balloons {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 15;
+        }
+        .float-balloon {
+            position: absolute;
+            font-size: 40px;
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-30px) rotate(5deg); }
+        }
+        .float-balloon:nth-child(1) { top: 20%; left: 2%; animation-duration: 5s; animation-delay: 0s; }
+        .float-balloon:nth-child(2) { top: 50%; left: 1%; animation-duration: 6s; animation-delay: 1s; }
+        .float-balloon:nth-child(3) { top: 70%; left: 3%; animation-duration: 5.5s; animation-delay: 2s; }
+        .float-balloon:nth-child(4) { top: 30%; right: 2%; animation-duration: 6s; animation-delay: 0.5s; }
+        .float-balloon:nth-child(5) { top: 60%; right: 1%; animation-duration: 5.5s; animation-delay: 1.5s; }
+        .float-balloon:nth-child(6) { top: 80%; right: 3%; animation-duration: 6s; animation-delay: 2.5s; }
+
+        /* --- NEW: Twinkling Stars --- */
+        .twinkling-stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 12;
+        }
+        .star {
+            position: absolute;
+            font-size: 24px;
+            opacity: 0;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        .star:nth-child(1) { top: 10%; left: 15%; animation-delay: 0s; animation-duration: 2.5s; }
+        .star:nth-child(2) { top: 20%; left: 80%; animation-delay: 0.5s; animation-duration: 3s; }
+        .star:nth-child(3) { top: 30%; left: 25%; animation-delay: 1s; animation-duration: 2.8s; }
+        .star:nth-child(4) { top: 40%; left: 70%; animation-delay: 1.5s; animation-duration: 3.2s; }
+        .star:nth-child(5) { top: 50%; left: 10%; animation-delay: 2s; animation-duration: 2.7s; }
+        .star:nth-child(6) { top: 60%; left: 85%; animation-delay: 0.3s; animation-duration: 3.1s; }
+        .star:nth-child(7) { top: 70%; left: 30%; animation-delay: 0.8s; animation-duration: 2.9s; }
+        .star:nth-child(8) { top: 80%; left: 65%; animation-delay: 1.3s; animation-duration: 3s; }
+
+        /* --- NEW: Rising Hearts --- */
+        .rising-hearts {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 11;
+        }
+        .heart {
+            position: absolute;
+            bottom: -50px;
+            font-size: 28px;
+            opacity: 0;
+            animation: rise-heart 8s linear infinite;
+        }
+        @keyframes rise-heart {
+            0% {
+                bottom: -50px;
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                bottom: 110%;
+                opacity: 0;
+                transform: translateX(var(--heart-drift, 0px));
+            }
+        }
+        .heart:nth-child(1) { left: 8%; --heart-drift: 20px; animation-delay: 0s; animation-duration: 10s; }
+        .heart:nth-child(2) { left: 22%; --heart-drift: -25px; animation-delay: 2s; animation-duration: 9s; }
+        .heart:nth-child(3) { left: 38%; --heart-drift: 30px; animation-delay: 4s; animation-duration: 11s; }
+        .heart:nth-child(4) { left: 52%; --heart-drift: -20px; animation-delay: 6s; animation-duration: 10s; }
+        .heart:nth-child(5) { left: 68%; --heart-drift: 25px; animation-delay: 1s; animation-duration: 9s; }
+        .heart:nth-child(6) { left: 82%; --heart-drift: -30px; animation-delay: 3s; animation-duration: 10s; }
+        .heart:nth-child(7) { left: 92%; --heart-drift: 15px; animation-delay: 5s; animation-duration: 11s; }
+
+        /* --- Candle "Blow Out" Animation --- */
+        .candle-container {
+            position: relative;
+            font-size: 5rem;
+            line-height: 1;
+            display: inline-block;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .candle-container:hover {
+            transform: scale(1.05);
+        }
+        .candle-flame {
+            position: absolute;
+            top: -28px;
+            left: 28px;
+            font-size: 3rem;
+            animation: flicker 1s infinite;
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+        }
+        .candle-flame.blown {
+            opacity: 0;
+            transform: scale(0);
+            animation: none;
+        }
+        .candle-smoke {
+            position: absolute;
+            top: -40px;
+            left: 28px;
+            font-size: 3rem;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .candle-smoke.active {
+            animation: smoke-rise 2.5s ease-out forwards;
+        }
+        @keyframes flicker {
+            0%, 100% { opacity: 1; transform: scaleY(1); }
+            50% { opacity: 0.8; transform: scaleY(1.1); }
+        }
+        @keyframes smoke-rise {
+            0% {
+                opacity: 0;
+                transform: translateY(0) scale(0.8);
+            }
+            10% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-80px) scale(1.2);
+            }
+        }
+
+        /* --- Falling Gifts Animation --- */
+        .gift-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        .falling-gift {
+            position: absolute;
+            font-size: 48px;
+            top: -100px;
+            animation: gift-fall 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        @keyframes gift-fall {
+            0% {
+                top: -100px;
+                opacity: 0;
+                transform: translateX(0) rotate(0deg);
+            }
+            5% {
+                opacity: 1;
+            }
+            70% {
+                animation-timing-function: ease-in;
+            }
+            85% {
+                animation-timing-function: ease-out;
+            }
+            100% {
+                top: var(--fall-distance);
+                opacity: 1;
+                transform: translateX(var(--sway-amount)) rotate(var(--rotation));
+            }
+        }
+        .falling-gift.bounce {
+            animation: gift-fall 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards,
+                       gift-bounce 0.3s ease-out 2s forwards;
+        }
+        @keyframes gift-bounce {
+            0%, 100% {
+                transform: translateX(var(--sway-amount)) rotate(var(--rotation)) translateY(0);
+            }
+            50% {
+                transform: translateX(var(--sway-amount)) rotate(var(--rotation)) translateY(-15px);
+            }
+        }
+
+        /* --- Gift Wiggle Before Burst --- */
+        .gift-wiggle {
+            animation: gift-wiggle-anim 0.2s ease-in-out forwards;
+        }
+        @keyframes gift-wiggle-anim {
+            0%, 100% {
+                transform: translateX(var(--sway-amount)) rotate(calc(var(--rotation) + 0deg));
+            }
+            25% {
+                transform: translateX(var(--sway-amount)) rotate(calc(var(--rotation) + 10deg)) scale(1.1);
+            }
+            75% {
+                transform: translateX(var(--sway-amount)) rotate(calc(var(--rotation) - 10deg)) scale(1.1);
+            }
+        }
+
+        /* --- Gift Burst Animation --- */
+        .gift-burst {
+            animation: gift-burst-anim 0.3s ease-out forwards;
+        }
+        @keyframes gift-burst-anim {
+            0% {
+                transform: translateX(var(--sway-amount)) rotate(var(--rotation)) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translateX(var(--sway-amount)) rotate(var(--rotation)) scale(1.5);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateX(var(--sway-amount)) rotate(var(--rotation)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* --- Burst Star Animation --- */
+        .burst-star {
+            position: absolute;
+            font-size: var(--star-size, 30px);
+            opacity: 1;
+            pointer-events: none;
+            animation: star-burst 1.5s ease-out forwards;
+        }
+        @keyframes star-burst {
+            0% {
+                transform: translate(0, 0) scale(0.5) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                opacity: 1;
+                transform: translate(var(--burst-x), var(--burst-y)) scale(1.2) rotate(180deg);
+            }
+            100% {
+                transform: translate(var(--burst-x), var(--burst-y)) scale(0.3) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* --- Card Hover Effects --- */
+        .card-glow {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .card-glow::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ec4899, #f472b6, #fbcfe8, #ec4899);
+            background-size: 300% 300%;
+            border-radius: 1rem;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+            animation: gradient-shift 3s ease infinite;
+        }
+        .card-glow:hover::before {
+            opacity: 0.3;
+        }
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* --- Sparkle Effect on Hover --- */
+        .sparkle-container {
+            position: relative;
+            overflow: visible;
+        }
+        .sparkle {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .sparkle.active {
+            animation: sparkle-pop 0.8s ease-out forwards;
+        }
+        @keyframes sparkle-pop {
+            0% {
+                opacity: 0;
+                transform: scale(0) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2) rotate(180deg);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0) rotate(360deg) translateY(-30px);
+            }
+        }
+
+        /* --- Text Gradient Effect --- */
+        .gradient-text {
+            background: linear-gradient(45deg, #ec4899, #f472b6, #be185d, #ec4899);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-shift 4s ease infinite;
+        }
+
+        /* --- Decorative Corners --- */
+        .photo-frame {
+            position: relative;
+        }
+        .photo-frame::before,
+        .photo-frame::after,
+        .corner-tl,
+        .corner-br {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #ec4899;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+        .photo-frame::before {
+            top: -5px;
+            left: -5px;
+            border-right: none;
+            border-bottom: none;
+        }
+        .photo-frame::after {
+            bottom: -5px;
+            right: -5px;
+            border-left: none;
+            border-top: none;
+        }
+        .photo-frame:hover::before,
+        .photo-frame:hover::after {
+            width: 30px;
+            height: 30px;
+            opacity: 1;
+        }
+
+        /* --- Ribbon Divider --- */
+        .ribbon-divider {
+            position: relative;
+            text-align: center;
+            margin: 60px auto;
+            max-width: 600px;
+        }
+        .ribbon-divider::before,
+        .ribbon-divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ec4899, transparent);
+        }
+        .ribbon-divider::before { left: 0; }
+        .ribbon-divider::after { right: 0; }
+        .ribbon-center {
+            display: inline-block;
+            font-size: 36px;
+            animation: spin-slow 10s linear infinite;
+        }
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* --- Shine Effect --- */
+        .shine {
+            position: relative;
+            overflow: hidden;
+        }
+        .shine::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: translateX(-100%);
+            animation: shine-sweep 5s ease-in-out infinite;
+        }
+        @keyframes shine-sweep {
+            0%, 100% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+        }
+
+        /* --- Footer Hearts --- */
+        .footer-hearts {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* --- Mobile Responsive Adjustments --- */
+        @media (max-width: 768px) {
+            .float-balloon { font-size: 30px; }
+            .star { font-size: 18px; }
+            .heart { font-size: 22px; }
+            .candle-container { font-size: 4rem; }
+            .candle-flame { font-size: 2.5rem; top: -20px; left: 20px; }
+            .candle-smoke { font-size: 2.5rem; top: -30px; left: 20px; }
+        }
+    </style>
+</head>
+<body class="bg-pink-50 font-sans text-gray-700 relative">
+
+    <!-- ENHANCED: Confetti Burst Container with More Particles -->
+    <div class="confetti-burst" aria-hidden="true">
+        <div class="particle">🎈</div>
+        <div class="particle">⭐</div>
+        <div class="particle">🎁</div>
+        <div class="particle">🎉</div>
+        <div class="particle">✨</div>
+        <div class="particle">🎊</div>
+        <div class="particle">💫</div>
+        <div class="particle">🎁</div>
+        <div class="particle">🎈</div>
+        <div class="particle">🌟</div>
+        <div class="particle">🎉</div>
+        <div class="particle">⭐</div>
+        <div class="particle">🎁</div>
+        <div class="particle">✨</div>
+        <div class="particle">🎈</div>
+        <div class="particle">🎊</div>
+        <div class="particle">💖</div>
+        <div class="particle">💕</div>
+        <div class="particle">🌟</div>
+        <div class="particle">🎉</div>
+    </div>
+
+    <!-- NEW: Rising Balloons on Load -->
+    <div class="balloon-container" aria-hidden="true">
+        <div class="balloon">🎈</div>
+        <div class="balloon">🎈</div>
+        <div class="balloon">🎈</div>
+        <div class="balloon">🎈</div>
+        <div class="balloon">🎈</div>
+        <div class="balloon">🎈</div>
+    </div>
+
+    <!-- NEW: Floating Side Balloons (Continuous) -->
+    <div class="floating-balloons" aria-hidden="true">
+        <div class="float-balloon">🎈</div>
+        <div class="float-balloon">🎈</div>
+        <div class="float-balloon">🎈</div>
+        <div class="float-balloon">🎈</div>
+        <div class="float-balloon">🎈</div>
+        <div class="float-balloon">🎈</div>
+    </div>
+
+    <!-- NEW: Twinkling Stars -->
+    <div class="twinkling-stars" aria-hidden="true">
+        <div class="star">⭐</div>
+        <div class="star">✨</div>
+        <div class="star">💫</div>
+        <div class="star">🌟</div>
+        <div class="star">⭐</div>
+        <div class="star">✨</div>
+        <div class="star">💫</div>
+        <div class="star">🌟</div>
+    </div>
+
+    <!-- NEW: Rising Hearts -->
+    <div class="rising-hearts" aria-hidden="true">
+        <div class="heart">❤️</div>
+        <div class="heart">💕</div>
+        <div class="heart">💖</div>
+        <div class="heart">💗</div>
+        <div class="heart">💓</div>
+        <div class="heart">💕</div>
+        <div class="heart">❤️</div>
+    </div>
+
+    <!-- Petal Animation Container (Continuous) -->
+    <div class="falling-petals" aria-hidden="true">
+        <div class="petal">🌸</div>
+        <div class="petal">🌸</div>
+        <div class="petal">🌸</div>
+        <div class="petal">🌸</div>
+        <div class="petal">🌸</div>
+        <div class="petal">🌸</div>
+        <div class="petal">🌸</div>
+        <div class="petal">🌸</div>
+        <div class="petal">🌸</div>
+        <div class="petal">🌸</div>
+        <div class="petal">❤️</div>
+        <div class="petal">💕</div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section class="min-h-screen flex flex-col items-center justify-center text-center p-4 relative z-20">
+        <h1 class="font-serif text-5xl md:text-7xl font-bold text-pink-600 hero-h1 gradient-text">
+            Happy Birthday Didi
+        </h1>
+        <p class="mt-4 text-lg md:text-xl text-pink-800 hero-p">
+            May your birthday be as wonderful as you are!
+        </p>
+        <div class="mt-20 text-pink-500 hero-arrow">
+            <svg class="w-8 h-8 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- "MAKE A WISH" CANDLE SECTION -->
+    <section class="scroll-animate max-w-2xl mx-auto my-24 text-center p-6">
+        <div class="candle-container" id="candleContainer">
+            <span>🕯️</span>
+            <div class="candle-flame" id="candleFlame">🔥</div>
+            <div class="candle-smoke" id="candleSmoke">💨</div>
+        </div>
+        <h2 class="font-serif text-4xl font-bold text-pink-600 mt-4">
+            Make a wish!
+        </h2>
+        <p class="text-sm text-pink-500 mt-2 transition-opacity duration-500" id="candleInstruction">(Click the candle to blow it out)</p>
+    </section>
+
+    <!-- Ribbon Divider -->
+    <div class="ribbon-divider">
+        <span class="ribbon-center">🎀</span>
+    </div>
+
+    <!-- CONTENT SECTIONS -->
+    <main class="w-full overflow-x-hidden relative z-20">
+
+        <!-- SECTION 1: Image on Left -->
+        <section class="scroll-animate max-w-4xl mx-auto my-24 p-6 md:p-10 bg-white rounded-2xl shadow-xl card-glow sparkle-container">
+            <div class="md:flex md:items-center md:space-x-10">
+                <div class="md:w-1/2 photo-frame shine">
+                    <img src="https://i.ibb.co/8n9VdDCT/p1.jpg" 
+                         alt="A fun memory" 
+                         class="w-full rounded-lg shadow-md aspect-square object-cover">
+                </div>
+                <div class="md:w-1/2 mt-6 md:mt-0">
+                    <h2 class="font-serif text-3xl font-bold text-pink-600 gradient-text">Best Sister Ever</h2>
+                    <p class="mt-4 text-lg">
+                        Happy Birthday, Di! You really are the best sister anyone could ask for. I love you so much.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: Image on Right -->
+        <section class="scroll-animate max-w-4xl mx-auto my-24 p-6 md:p-10 bg-white rounded-2xl shadow-xl card-glow sparkle-container">
+            <div class="md:flex md:items-center md:space-x-10 md:flex-row-reverse md:space-x-reverse">
+                <div class="md:w-1/2 photo-frame shine">
+                    <img src="https://i.ibb.co/8L2K8Zkk/p2.jpg" 
+                         alt="Another great memory" 
+                         class="w-full rounded-lg shadow-md aspect-square object-cover">
+                </div>
+                <div class="md:w-1/2 mt-6 md:mt-0">
+                    <h2 class="font-serif text-3xl font-bold text-pink-600 gradient-text">My Biggest Support</h2>
+                    <p class="mt-4 text-lg">
+                        Happy Birthday! Thank you for always supporting me 
+                        and having my back. I'm so lucky to have you.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ribbon Divider -->
+        <div class="ribbon-divider">
+            <span class="ribbon-center">💝</span>
+        </div>
+
+        <!-- SECTION 3: Text Only -->
+        <section class="scroll-animate max-w-2xl mx-auto my-24 text-center p-6">
+            <h2 class="font-serif text-4xl font-bold text-pink-600">
+                <span class="soft-pulse gradient-text">बहन❤️</span>
+            </h2>
+            <p class="mt-4 text-xl">
+                May this new year of your life bring you endless joy, 
+                peace, and prosperity. Thank you for always being an inspiration.
+                I'm so grateful for all the wonderful memories we've shared.
+                May your birthday be as special as you are. 
+            </p>
+        </section>
+
+        <!-- Ribbon Divider -->
+        <div class="ribbon-divider">
+            <span class="ribbon-center">🎀</span>
+        </div>
+
+        <!-- SECTION 4: Final Photo -->
+        <section class="scroll-animate max-w-4xl mx-auto my-24 p-6 md:p-10 bg-white rounded-2xl shadow-xl card-glow sparkle-container">
+            <div class="md:flex md:items-center md:space-x-10">
+                <div class="md:w-1/2 photo-frame shine">
+                    <img src="https://i.ibb.co/wFgCvgvn/p3.jpg" 
+                         alt="Your favorite photo together" 
+                         class="w-full rounded-lg shadow-md aspect-square object-cover">
+                </div>
+                <div class="md:w-1/2 mt-6 md:mt-0">
+                    <h2 class="font-serif text-3xl font-bold text-pink-600 gradient-text">The Best Sister</h2>
+                    <p class="mt-4 text-lg">
+                        Happy Birthday to the most amazing sister in the world.
+                        I'm so grateful for everything you do and everything you are.
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SECTION 5: Image on Right -->
+        <section class="scroll-animate max-w-4xl mx-auto my-24 p-6 md:p-10 bg-white rounded-2xl shadow-xl card-glow sparkle-container">
+            <div class="md:flex md:items-center md:space-x-10 md:flex-row-reverse md:space-x-reverse">
+                <div class="md:w-1/2 photo-frame shine">
+                    <img src="https://i.ibb.co/9HqjCBrr/p12.jpg" 
+                         alt="Another great memory" 
+                         class="w-full rounded-lg shadow-md aspect-square object-cover">
+                </div>
+                <div class="md:w-1/2 mt-6 md:mt-0">
+                    <h2 class="font-serif text-3xl font-bold text-pink-600 gradient-text">Always My Guide</h2>
+                    <p class="mt-4 text-lg">
+                        To my amazing elder sister, Happy Birthday!
+                        Your love and guidance have always meant the world to me. 
+                        I'm so lucky to have you.
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="text-center py-10 relative z-20">
+        <div class="footer-hearts" aria-hidden="true">💕 ❤️ 💖</div>
+        <p class="text-pink-400">Made with Harshbks ❤️</p>
+    </footer>
+
+    <script>
+        // Scroll animation for sections
+        const animatedElements = document.querySelectorAll('.scroll-animate');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.2
+        });
+        animatedElements.forEach(element => {
+            observer.observe(element);
+        });
+
+        // Candle blow out interaction with falling gifts
+        let candleBlown = false;
+        
+        document.getElementById('candleContainer').addEventListener('click', function() {
+            if (candleBlown) return;
+            candleBlown = true;
+            
+            const flame = document.getElementById('candleFlame');
+            const smoke = document.getElementById('candleSmoke');
+            const instruction = document.getElementById('candleInstruction');
+            
+            // Blow out flame
+            flame.classList.add('blown');
+            
+            // Show smoke after short delay
+            setTimeout(() => {
+                smoke.classList.add('active');
+            }, 100);
+            
+            // Drop gifts immediately
+            dropGifts();
+            
+            // Fade out instruction
+            if (instruction) {
+                instruction.style.opacity = '0';
+            }
+            
+            // Remove hover effect
+            this.style.cursor = 'default';
+        });
+
+        // Create falling gifts animation with burst effect
+        function dropGifts() {
+            // Create container for gifts
+            let giftContainer = document.querySelector('.gift-container');
+            if (!giftContainer) {
+                giftContainer = document.createElement('div');
+                giftContainer.className = 'gift-container';
+                document.body.appendChild(giftContainer);
+            }
+            
+            // Random number of gifts (5-7)
+            const giftCount = 5 + Math.floor(Math.random() * 3);
+            
+            for (let i = 0; i < giftCount; i++) {
+                setTimeout(() => {
+                    const gift = document.createElement('div');
+                    gift.className = 'falling-gift bounce';
+                    gift.textContent = '🎁';
+                    
+                    // Random horizontal position (10% to 90%)
+                    const leftPosition = 10 + Math.random() * 80;
+                    gift.style.left = leftPosition + '%';
+                    
+                    // Random fall distance (different landing heights)
+                    const fallDistance = (50 + Math.random() * 35) + 'vh';
+                    gift.style.setProperty('--fall-distance', fallDistance);
+                    
+                    // Random sway amount (-30px to 30px)
+                    const swayAmount = (Math.random() * 60 - 30) + 'px';
+                    gift.style.setProperty('--sway-amount', swayAmount);
+                    
+                    // Random rotation (360deg to 720deg)
+                    const rotation = (360 + Math.random() * 360) + 'deg';
+                    gift.style.setProperty('--rotation', rotation);
+                    
+                    giftContainer.appendChild(gift);
+                    
+                    // Trigger burst sequence after gift lands
+                    // Fall (2s) + Bounce (0.3s) + Pause (0.1s) = 2.4s
+                    setTimeout(() => {
+                        burstGift(gift, giftContainer);
+                    }, 2400);
+                }, i * 100); // Stagger the gift drops
+            }
+            
+            // Clean up container after all animations complete
+            setTimeout(() => {
+                if (giftContainer && giftContainer.parentNode) {
+                    giftContainer.remove();
+                }
+            }, 5000);
+        }
+
+        // Burst gift and create star explosion
+        function burstGift(gift, container) {
+            // Get gift position for star spawn point
+            const giftRect = gift.getBoundingClientRect();
+            const giftX = giftRect.left + giftRect.width / 2;
+            const giftY = giftRect.top + giftRect.height / 2;
+            
+            // Wiggle animation
+            gift.classList.add('gift-wiggle');
+            
+            // After wiggle, burst and create stars
+            setTimeout(() => {
+                gift.classList.remove('gift-wiggle');
+                gift.classList.add('gift-burst');
+                
+                // Create star burst
+                createStarBurst(giftX, giftY, container);
+                
+                // Remove gift after burst animation
+                setTimeout(() => {
+                    if (gift.parentNode) {
+                        gift.remove();
+                    }
+                }, 300);
+            }, 200);
+        }
+
+        // Create radial star burst
+        function createStarBurst(centerX, centerY, container) {
+            const starEmojis = ['⭐', '✨', '🌟'];
+            const starCount = 6 + Math.floor(Math.random() * 5); // 6-10 stars
+            const angleStep = (Math.PI * 2) / starCount;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'burst-star';
+                star.textContent = starEmojis[Math.floor(Math.random() * starEmojis.length)];
+                
+                // Random star size
+                const sizes = ['24px', '30px', '36px'];
+                const starSize = sizes[Math.floor(Math.random() * sizes.length)];
+                star.style.setProperty('--star-size', starSize);
+                
+                // Position at gift center
+                star.style.left = centerX + 'px';
+                star.style.top = centerY + 'px';
+                star.style.transform = 'translate(-50%, -50%)';
+                
+                // Calculate radial burst direction
+                const angle = angleStep * i + (Math.random() * 0.5 - 0.25); // Add slight randomness
+                const distance = 100 + Math.random() * 100; // 100-200px
+                const burstX = Math.cos(angle) * distance;
+                const burstY = Math.sin(angle) * distance;
+                
+                star.style.setProperty('--burst-x', burstX + 'px');
+                star.style.setProperty('--burst-y', burstY + 'px');
+                
+                container.appendChild(star);
+                
+                // Remove star after animation
+                setTimeout(() => {
+                    if (star.parentNode) {
+                        star.remove();
+                    }
+                }, 1500);
+            }
+        }
+
+        // Add sparkle effect on card hover
+        const sparkleContainers = document.querySelectorAll('.sparkle-container');
+        sparkleContainers.forEach(container => {
+            container.addEventListener('mouseenter', function(e) {
+                createSparkles(this);
+            });
+        });
+
+        function createSparkles(container) {
+            const sparkleEmojis = ['✨', '⭐', '💫', '🌟'];
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle active';
+                    sparkle.textContent = sparkleEmojis[Math.floor(Math.random() * sparkleEmojis.length)];
+                    
+                    const rect = container.getBoundingClientRect();
+                    sparkle.style.top = (Math.random() * rect.height) + 'px';
+                    sparkle.style.left = (Math.random() * rect.width) + 'px';
+                    
+                    container.appendChild(sparkle);
+                    
+                    setTimeout(() => sparkle.remove(), 1000);
+                }, i * 100);
+            }
+        }
+    </script>
+</body>
+</html>
